@@ -6,25 +6,24 @@
 collective.behavior.internalnumber
 ==============================================================================
 
-Tell me what your product does
+This product adds a plone behavior for dexterity content.
+The behavior adds a text field containing an internal number.
 
 Features
 --------
 
-- Can be bullet points
+- Optional uniqueness validation
+- Optional default value
+- Global or type by type configuration
+- A configuration page can manage by portal type:
 
+  * a uniqueness option
+  * an optional prefix, added in the index, to separate indexed values type by type
+  * a default value tal expression
+  * an incremented counter
 
 Examples
 --------
-
-This add-on can be seen in action at the following sites:
-- Is there a page on the internet where everybody can see the features?
-
-
-Documentation
--------------
-
-Full documentation for end users can be found in the "docs" folder, and is also available online at http://docs.plone.org/foo/bar
 
 
 Translations
@@ -32,7 +31,7 @@ Translations
 
 This product has been translated into
 
-- Klingon (thanks, K'Plai)
+- French (thanks the author)
 
 
 Installation
@@ -57,13 +56,6 @@ Contribute
 - Issue Tracker: https://github.com/collective/collective.behavior.internalnumber/issues
 - Source Code: https://github.com/collective/collective.behavior.internalnumber
 - Documentation: https://docs.plone.org/foo/bar
-
-
-Support
--------
-
-If you are having issues, please let us know.
-We have a mailing list located at: project@example.com
 
 
 License
