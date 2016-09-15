@@ -19,6 +19,8 @@
       provides=".behavior.IInternalNumberBehavior"
       />
 
+  <adapter name="internal_number_index" factory=".adapters.internal_number_index" />
+
   <genericsetup:registerProfile
       name="default"
       title="collective.behavior.internalnumber"

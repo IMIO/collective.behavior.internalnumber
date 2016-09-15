@@ -28,11 +28,6 @@ class TestSetup(unittest.TestCase):
         from plone.browserlayer import utils
         self.assertIn(ICollectiveBehaviorInternalnumberLayer, utils.registered_layers())
 
-    def test_content(self):
-        self.assertIn('my-content', self.portal)
-        myc = self.portal['my-content']
-        self.assertEqual(myc.internal_number, 'AA123')
-
 
 class TestUninstall(unittest.TestCase):
 

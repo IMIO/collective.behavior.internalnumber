@@ -26,7 +26,7 @@ class CollectiveBehaviorInternalnumberLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'collective.behavior.internalnumber:testing')
         setRoles(portal, TEST_USER_ID, ['Manager'])
-        content = api.content.create(container=portal, id='my-content', type='testtype', title='My content',
+        content = api.content.create(container=portal, id='tt1', type='testtype', title='My content',
                                      internal_number='AA123')
         content.reindexObject()
 
