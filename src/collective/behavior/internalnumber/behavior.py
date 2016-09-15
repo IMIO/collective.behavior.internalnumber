@@ -12,7 +12,7 @@ from . import _
 class IInternalNumberBehavior(model.Schema):
 
     internal_number = schema.TextLine(
-        title=_(u"Internal Reference Number"),
+        title=_(u"Internal number"),
         required=False,)
 
 alsoProvides(IInternalNumberBehavior, IFormFieldProvider)

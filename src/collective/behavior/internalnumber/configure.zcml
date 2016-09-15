@@ -14,7 +14,7 @@
   <include package=".browser" />
 
   <plone:behavior
-      title="Internal number"
+      title="Internal number field"
       description="Add a text field to encode internal number."
       provides=".behavior.IInternalNumberBehavior"
       />
