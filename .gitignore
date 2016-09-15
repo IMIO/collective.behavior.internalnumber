@@ -1,4 +1,6 @@
 .coverage
+.installed.cfg
+.mr.developer.cfg
 *.egg-info
 *.log
 *.mo
