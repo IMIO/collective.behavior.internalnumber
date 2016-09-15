@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-"""Setup tests for this package."""
-from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
-from plone import api
 
 import unittest
+
+from plone import api
+from zope.interface import Invalid
+
+from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
+
+from ..behavior import validateIndexValueUniqueness
 
 
 class TestBehavior(unittest.TestCase):
@@ -28,3 +32,7 @@ class TestBehavior(unittest.TestCase):
         self.assertEqual(len(brains), 2)
         brains = pc(portal_type='testtype', internal_number='AA123')
         self.assertEqual(len(brains), 1)
+
+    def test_validator(self):
+        self.assertRaises(Invalid, validateIndexValueUniqueness, self.tt2, 'testtype', 'internal_number', 'AA123')
+        self.assertIsNone(validateIndexValueUniqueness(self.tt2, 'testtype', 'internal_number', 'AA1234'))
