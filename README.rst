@@ -12,19 +12,19 @@ The behavior adds a text field containing an internal number.
 Features
 --------
 
-- Optional uniqueness validation
-- Optional default value
-- Global or type by type configuration
-- A configuration page can manage by portal type:
+- Uniqueness validation
+- Inclusion in searchable text
 
-  * a uniqueness option
-  * an optional prefix, added in the index, to separate indexed values type by type
-  * a default value tal expression
-  * an incremented counter
+Usage
+-----
 
-Examples
---------
+In the configuration panel, go to dexterity types.
+Click on the type you want extend with the internal number field.
+Go to the behavior tab.
+Select "Internal number field" behavior.
 
+If you want the internal number be searched in searchable text, you can also select
+the "Dynamic SearchableText indexer behavior"
 
 Translations
 ------------

@@ -2,8 +2,11 @@
 
 import unittest
 
-from plone import api
+from zope.component import getUtility
 from zope.interface import Invalid
+
+from plone import api
+from plone.dexterity.interfaces import IDexterityFTI
 
 from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
 
@@ -31,6 +34,16 @@ class TestBehavior(unittest.TestCase):
         brains = pc(portal_type='testtype')
         self.assertEqual(len(brains), 2)
         brains = pc(portal_type='testtype', internal_number='AA123')
+        self.assertEqual(len(brains), 1)
+
+    def test_searchabletext_index(self):
+        fti = getUtility(IDexterityFTI, name='testtype')
+        behaviors = list(fti.behaviors)
+        behaviors.append('collective.dexteritytextindexer.behavior.IDexterityTextIndexer')
+        fti._updateProperty('behaviors', tuple(behaviors))
+        self.tt1.reindexObject()
+        pc = self.portal.portal_catalog
+        brains = pc(portal_type='testtype', SearchableText='AA123')
         self.assertEqual(len(brains), 1)
 
     def test_validator(self):

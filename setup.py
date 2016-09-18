@@ -41,6 +41,7 @@ setup(
         'plone.api',
         'Products.GenericSetup>=1.8.2',
         'setuptools',
+        'collective.dexteritytextindexer',
     ],
     extras_require={
         'test': [
