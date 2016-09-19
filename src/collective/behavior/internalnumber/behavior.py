@@ -9,6 +9,8 @@ from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 
+from Products.CMFPlone.utils import safe_unicode
+
 from . import _
 
 
@@ -33,16 +35,20 @@ def validateIndexValueUniqueness(context, portal_type, index_name, value):
     if context.portal_type != portal_type:
         # we create the object, the context is the container
         if brains:
-            raise Invalid(_(u"This value is already used in ${obj}",
-                            mapping={'obj': ', '.join(['<a href="%s" target="_blank">%s</a>' % (b.getURL(), b.Title)
-                                                       for b in brains])}))
+            raise Invalid(_(u"This value '${value}' is already used in ${obj}",
+                            mapping={'obj': ', '.join(['<a href="%s" target="_blank">%s</a>' %
+                                                       (safe_unicode(b.getURL()), safe_unicode(b.Title))
+                                                       for b in brains]),
+                                     'value': safe_unicode(value)}))
     else:
         # we edit the object, the context is itself
         # if multiple brains (normally not possible), we are sure there are other objects with same index value
         if len(brains) > 1 or (len(brains) == 1 and brains[0].UID != context.UID()):
-            raise Invalid(_(u"This value is already used in ${obj}",
-                            mapping={'obj': ', '.join(['<a href="%s" target="_blank">%s</a>' % (b.getURL(), b.Title)
-                                                       for b in brains])}))
+            raise Invalid(_(u"This value '${value}' is already used in ${obj}",
+                            mapping={'obj': ', '.join(['<a href="%s" target="_blank">%s</a>' %
+                                                       (safe_unicode(b.getURL()), safe_unicode(b.Title))
+                                                       for b in brains]),
+                                     'value': safe_unicode(value)}))
 
 
 class InternalNumberValidator(validator.SimpleFieldValidator):

@@ -31,7 +31,7 @@ msgid "Internal number field"
 msgstr "Champ numéro interne"
 
 #: ../behavior.py:36
-msgid "This value is already used in ${obj}"
+msgid "This value '${value}' is already used in ${obj}"
 msgstr "Cette valeur est déjà utilisée dans ${obj}"
 
 #: ../configure.zcml:40
