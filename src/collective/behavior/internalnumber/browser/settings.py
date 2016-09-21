@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from zope import schema
 from zope.component import getAllUtilitiesRegisteredFor, getUtility
 from zope.i18n.interfaces import ITranslationDomain
@@ -45,7 +47,6 @@ class IInternalNumberConfig(Interface):
 
     portal_type_config = schema.List(
         title=_(u'By type configuration'),
-#        description=_(u"Useless description."),
         value_type=DictRow(title=_("Portal type conf"),
                            schema=IPortalTypeConfigSchema))
 

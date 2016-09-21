@@ -7,7 +7,6 @@ from z3c.form import validator, widget
 
 from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.directives.form import default_value
 from plone.supermodel import model
 
 from Products.CMFPlone.utils import safe_unicode
