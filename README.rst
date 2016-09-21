@@ -13,11 +13,14 @@ Features
 --------
 
 - Optional uniqueness validation
+- Optional default value
 - Inclusion in searchable text
 - Global or type by type configuration
 - A configuration page can manage globally or type by type:
 
   * a uniqueness option
+  * an incremented number
+  * a default value tal expression
 
 Usage
 -----

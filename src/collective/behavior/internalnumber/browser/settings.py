@@ -24,7 +24,18 @@ class IPortalTypeConfigSchema(Interface):
         title=_("Portal type"),
         vocabulary=u'collective.internalnumber.portaltypevocabulary',
         required=True)
-    uniqueness = schema.Bool(title=_("Uniqueness"), required=False)
+    uniqueness = schema.Bool(
+        title=_("Uniqueness"),
+        required=False)
+    default_number = schema.Int(
+        title=_(u'Number of next content item'),
+        description=_(u"This value can be used as 'number' variable in tal expression"),
+        default=0)
+    default_expression = schema.TextLine(
+        title=_("Default value tal expression"),
+        description=_("Elements 'number', 'member', 'context' and 'portal' are available."),
+        default=u"number",
+        required=False)
 
 
 class IInternalNumberConfig(Interface):
@@ -58,7 +69,8 @@ def get_settings():
     if ptc is None:
         return settings
     for row in ptc:
-        settings[row['portal_type']] = {'u': row['uniqueness']}
+        settings[row['portal_type']] = {'u': row['uniqueness'], 'nb': row['default_number'],
+                                        'expr': row.get('default_expression', '')}
     return settings
 
 

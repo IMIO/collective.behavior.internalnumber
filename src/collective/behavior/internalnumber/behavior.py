@@ -3,13 +3,15 @@
 from zope import component
 from zope import schema
 from zope.interface import alsoProvides, Invalid
-from z3c.form import validator
+from z3c.form import validator, widget
 
 from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.directives.form import default_value
 from plone.supermodel import model
 
 from Products.CMFPlone.utils import safe_unicode
+from collective.behavior.talcondition.utils import _evaluateExpression
 
 from . import _
 from browser.settings import get_pt_settings
@@ -63,3 +65,18 @@ class InternalNumberValidator(validator.SimpleFieldValidator):
 
 validator.WidgetValidatorDiscriminators(InternalNumberValidator, field=IInternalNumberBehavior['internal_number'])
 component.provideAdapter(InternalNumberValidator)
+
+
+# To avoid grokking the package required by plone.directives.form.default_value decorator
+
+def internal_number_default(data):
+    """ Default value of internal_number """
+    settings = get_pt_settings(data.view.portal_type)
+    ret = _evaluateExpression(data.context, settings['expr'], extra_expr_ctx={'number': settings['nb']},
+                              empty_expr_is_true='')
+    return ret
+
+DefaultinternalNumber = widget.ComputedWidgetAttribute(internal_number_default,
+                                                       field=IInternalNumberBehavior['internal_number'])
+
+component.provideAdapter(DefaultinternalNumber, name='default')

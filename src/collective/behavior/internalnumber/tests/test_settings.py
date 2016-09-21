@@ -19,16 +19,21 @@ class TestSettings(unittest.TestCase):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
         self.tt1 = self.portal['tt1']
-        api.portal.set_registry_record(TYPE_CONFIG, [{u'portal_type': u'glo_bal', u'uniqueness': False},
-                                                     {u'portal_type': u'testtype', u'uniqueness': True}])
+        api.portal.set_registry_record(TYPE_CONFIG, [{u'portal_type': u'glo_bal', u'uniqueness': False,
+                                                      u'default_number': 1, u'default_expression': u'number'},
+                                                     {u'portal_type': u'testtype', u'uniqueness': True,
+                                                      u'default_number': 1, u'default_expression': u'number'}])
 
     def test_get_settings(self):
-        self.assertDictEqual(get_settings(), {u'glo_bal': {u'u': False}, u'testtype': {u'u': True}})
+        self.assertDictEqual(get_settings(), {u'glo_bal': {u'u': False, u'nb': 1, 'expr': u'number'},
+                                              u'testtype': {u'u': True, u'nb': 1, 'expr': u'number'}})
 
     def test_get_pt_settings(self):
-        self.assertDictEqual(get_pt_settings('testtype'), {u'u': True})
-        api.portal.set_registry_record(TYPE_CONFIG, [{u'portal_type': u'glo_bal', u'uniqueness': False}])
-        self.assertDictEqual(get_pt_settings('testtype'), {u'u': False})
+        self.assertDictEqual(get_pt_settings('testtype'), {u'u': True, u'nb': 1, 'expr': u'number'})
+        self.assertDictEqual(get_pt_settings('unknown'), {u'u': False, u'nb': 1, 'expr': u'number'})
+        api.portal.set_registry_record(TYPE_CONFIG, [{u'portal_type': u'glo_bal', u'uniqueness': False,
+                                                      u'default_number': 1, u'default_expression': u'number'}])
+        self.assertDictEqual(get_pt_settings('testtype'), {u'u': False, u'nb': 1, 'expr': u'number'})
 
     def test_DxPortalTypesVocabulary(self):
         voc_inst = DxPortalTypesVocabulary()

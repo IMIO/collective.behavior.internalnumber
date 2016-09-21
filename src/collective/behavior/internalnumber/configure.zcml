@@ -22,6 +22,12 @@
   <adapter name="internal_number_index" factory=".adapters.internal_number_index" />
   <adapter name="IInternalNumberBehavior" factory=".adapters.InternalNumberSearchableExtender" />
 
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".subscribers.object_added"
+      />
+
   <genericsetup:registerProfile
       name="default"
       title="collective.behavior.internalnumber"
