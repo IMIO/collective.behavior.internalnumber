@@ -32,7 +32,7 @@ class IPortalTypeConfigSchema(Interface):
     default_number = schema.Int(
         title=_(u'Number of next content item'),
         description=_(u"This value can be used as 'number' variable in tal expression"),
-        default=0)
+        default=1)
     default_expression = schema.TextLine(
         title=_("Default value tal expression"),
         description=_("Elements 'number', 'member', 'context' and 'portal' are available."),
