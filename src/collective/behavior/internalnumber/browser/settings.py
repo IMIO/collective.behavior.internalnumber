@@ -70,8 +70,8 @@ def get_settings():
     if ptc is None:
         return settings
     for row in ptc:
-        settings[row['portal_type']] = {'u': row['uniqueness'], 'nb': row['default_number'],
-                                        'expr': row.get('default_expression', '')}
+        expr = row['default_expression'] and row['default_expression'] or ''
+        settings[row['portal_type']] = {'u': row['uniqueness'], 'nb': row['default_number'], 'expr': expr}
     return settings
 
 
