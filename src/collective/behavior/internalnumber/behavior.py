@@ -12,6 +12,7 @@ from plone.supermodel import model
 from Products.CMFPlone.utils import safe_unicode
 
 from . import _
+from browser.settings import get_pt_settings
 
 
 class IInternalNumberBehavior(model.Schema):
@@ -55,6 +56,8 @@ class InternalNumberValidator(validator.SimpleFieldValidator):
     def validate(self, value):
         # we call the already defined validators
         # super(InternalNumberValidator, self).validate(value)
+        if not get_pt_settings(self.view.portal_type).get('u', True):
+            return
         validateIndexValueUniqueness(self.context, self.view.portal_type, 'internal_number', value)
 
 

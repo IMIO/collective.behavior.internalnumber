@@ -10,4 +10,11 @@
       directory="static"
       />
 
+  <browser:page
+      name="internalnumber-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="plone.app.controlpanel.Site"
+      class=".settings.SettingsView"
+      />
+
 </configure>

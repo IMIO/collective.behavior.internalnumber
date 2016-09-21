@@ -10,11 +10,12 @@ from plone.dexterity.interfaces import IDexterityFTI
 
 from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
 
-from ..behavior import validateIndexValueUniqueness
+from .. import TYPE_CONFIG
+from ..behavior import validateIndexValueUniqueness, InternalNumberValidator
 
 
 class TestBehavior(unittest.TestCase):
-    """Test that collective.behavior.internalnumber is properly installed."""
+    """Test behavior."""
 
     layer = COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING
 
@@ -24,6 +25,7 @@ class TestBehavior(unittest.TestCase):
         self.tt1 = self.portal['tt1']
         self.tt2 = api.content.create(container=self.portal, id='tt2', type='testtype', title='My content 2')
         self.tt2.reindexObject()
+        api.portal.set_registry_record(TYPE_CONFIG, [{u'portal_type': u'testtype', u'uniqueness': True}])
 
     def test_content(self):
         self.assertEqual(self.tt1.internal_number, 'AA123')
@@ -49,3 +51,21 @@ class TestBehavior(unittest.TestCase):
     def test_validator(self):
         self.assertRaises(Invalid, validateIndexValueUniqueness, self.tt2, 'testtype', 'internal_number', 'AA123')
         self.assertIsNone(validateIndexValueUniqueness(self.tt2, 'testtype', 'internal_number', 'AA1234'))
+        # context, request, view, field, widget
+        # make validator with tt2 as context and tt2 as portal_type
+        validator = InternalNumberValidator(self.tt2, None, self.tt2, None, None)
+        # validate following configuration: flag is True
+        self.assertRaises(Invalid, validator.validate, 'AA123')
+        self.assertIsNone(validator.validate('AA1234'))
+        # validate following configuration: flag is not defined
+        api.portal.set_registry_record(TYPE_CONFIG, [])
+        self.assertRaises(Invalid, validator.validate, 'AA123')
+        self.assertIsNone(validator.validate('AA1234'))
+        # validate following configuration: flag is False
+        api.portal.set_registry_record(TYPE_CONFIG, [{u'portal_type': u'testtype', u'uniqueness': False}])
+        self.assertIsNone(validator.validate('AA123'))
+        # make validator with portal as context and tt2 as portal_type
+        validator = InternalNumberValidator(self.portal, None, self.tt2, None, None)
+        api.portal.set_registry_record(TYPE_CONFIG, [])
+        self.assertRaises(Invalid, validator.validate, 'AA123')
+        self.assertIsNone(validator.validate('AA1234'))

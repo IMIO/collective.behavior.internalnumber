@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-09-15 14:27+0000\n"
+"POT-Creation-Date: 2016-09-20 20:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,30 +21,51 @@ msgstr ""
 msgid "Add a text field to encode internal number."
 msgstr ""
 
-#: ../configure.zcml:31
+#: ../browser/settings.py:28
+msgid "By type configuration"
+msgstr ""
+
+#: ../configure.zcml:32
 msgid "Installs the collective.behavior.internalnumber add-on."
 msgstr ""
 
-#: ../behavior.py:18
+#: ../behavior.py:21
 msgid "Internal number"
 msgstr ""
 
+#: ../browser/settings.py:42
+msgid "Internal number behavior configuration"
+msgstr ""
+
 #: ../configure.zcml:20
+#: ../profiles/default/controlpanel.xml
 msgid "Internal number field"
 msgstr ""
 
-#: ../behavior.py:36
+#: ../browser/settings.py:18
+msgid "Portal type"
+msgstr ""
+
+#: ../browser/settings.py:30
+msgid "Portal type conf"
+msgstr ""
+
+#: ../behavior.py:39
 msgid "This value '${value}' is already used in ${obj}"
 msgstr ""
 
-#: ../configure.zcml:40
+#: ../configure.zcml:41
 msgid "Uninstalls the collective.behavior.internalnumber add-on."
 msgstr ""
 
-#: ../configure.zcml:31
+#: ../browser/settings.py:19
+msgid "Uniqueness"
+msgstr ""
+
+#: ../configure.zcml:32
 msgid "collective.behavior.internalnumber"
 msgstr ""
 
-#: ../configure.zcml:40
+#: ../configure.zcml:41
 msgid "collective.behavior.internalnumber (uninstall)"
 msgstr ""

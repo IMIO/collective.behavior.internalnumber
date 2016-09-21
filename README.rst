@@ -12,8 +12,11 @@ The behavior adds a text field containing an internal number.
 Features
 --------
 
-- Uniqueness validation
+- Optional uniqueness validation
 - Inclusion in searchable text
+- A configuration page can manage by portal type:
+
+  * a uniqueness option
 
 Usage
 -----

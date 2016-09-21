@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
+import unittest
+
+from zope.schema._bootstrapinterfaces import WrongType
+
 from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
 from plone import api
 
-import unittest
+from .. import TYPE_CONFIG
 
 
 class TestSetup(unittest.TestCase):
@@ -27,6 +31,11 @@ class TestSetup(unittest.TestCase):
             ICollectiveBehaviorInternalnumberLayer)
         from plone.browserlayer import utils
         self.assertIn(ICollectiveBehaviorInternalnumberLayer, utils.registered_layers())
+
+    def test_registry(self):
+        self.assertRaises(api.exc.InvalidParameterError, api.portal.set_registry_record, 'Unexistent key', True)
+        self.assertRaises(WrongType, api.portal.set_registry_record, TYPE_CONFIG, 'string')
+        api.portal.set_registry_record(TYPE_CONFIG, [])
 
 
 class TestUninstall(unittest.TestCase):
