@@ -61,6 +61,9 @@ class TestBehavior(unittest.TestCase):
         api.portal.set_registry_record(TYPE_CONFIG, [])
         self.assertRaises(Invalid, validator.validate, 'AA123')
         self.assertIsNone(validator.validate('AA1234'))
+        # validate following configuration: flag is globally defined
+        api.portal.set_registry_record(TYPE_CONFIG, [{u'portal_type': u'glo_bal', u'uniqueness': False}])
+        self.assertIsNone(validator.validate('AA123'))
         # validate following configuration: flag is False
         api.portal.set_registry_record(TYPE_CONFIG, [{u'portal_type': u'testtype', u'uniqueness': False}])
         self.assertIsNone(validator.validate('AA123'))

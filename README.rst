@@ -14,7 +14,8 @@ Features
 
 - Optional uniqueness validation
 - Inclusion in searchable text
-- A configuration page can manage by portal type:
+- Global or type by type configuration
+- A configuration page can manage globally or type by type:
 
   * a uniqueness option
 

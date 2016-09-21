@@ -1,11 +1,16 @@
 from zope import schema
-from zope.interface import Interface
+from zope.component import getAllUtilitiesRegisteredFor, getUtility
+from zope.i18n.interfaces import ITranslationDomain
+from zope.interface import Interface, implements
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from z3c.form import form
 
 from plone import api
 from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.autoform.directives import widget
+from plone.dexterity.interfaces import IDexterityFTI
 from plone.z3cform import layout
 
 from collective.z3cform.datagridfield import DataGridFieldFactory
@@ -15,7 +20,10 @@ from .. import _, TYPE_CONFIG
 
 
 class IPortalTypeConfigSchema(Interface):
-    portal_type = schema.TextLine(title=_("Portal type"), required=True)
+    portal_type = schema.Choice(
+        title=_("Portal type"),
+        vocabulary=u'collective.internalnumber.portaltypevocabulary',
+        required=True)
     uniqueness = schema.Bool(title=_("Uniqueness"), required=False)
 
 
@@ -56,6 +64,22 @@ def get_settings():
 
 def get_pt_settings(pt):
     settings = get_settings()
-    if pt not in settings:
-        return {}
-    return settings[pt]
+    if pt in settings:
+        return settings[pt]
+    elif 'glo_bal' in settings:
+        return settings['glo_bal']
+    return {}
+
+
+class DxPortalTypesVocabulary(object):
+    """ Active mail types vocabulary """
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        terms = [SimpleTerm('glo_bal', 'glo_bal', _(u'Global configuration'))]
+        ftis = getAllUtilitiesRegisteredFor(IDexterityFTI)
+        for fti in ftis:
+            translation_domain = getUtility(ITranslationDomain, fti.i18n_domain)
+            terms.append(SimpleTerm(fti.id, fti.id, translation_domain.translate(fti.title,
+                                                                                 context=api.portal.get().REQUEST)))
+        return SimpleVocabulary(terms)
