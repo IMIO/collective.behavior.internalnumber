@@ -71,7 +71,7 @@ component.provideAdapter(InternalNumberValidator)
 def internal_number_default(data):
     """ Default value of internal_number """
     settings = get_pt_settings(data.view.portal_type)
-    ret = _evaluateExpression(data.context, settings['expr'], extra_expr_ctx={'number': settings['nb']},
+    ret = _evaluateExpression(data.context, settings.get('expr', ''), extra_expr_ctx={'number': settings.get('nb', 0)},
                               empty_expr_is_true='')
     return ret
 
