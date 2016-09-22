@@ -23,7 +23,7 @@
   <adapter name="IInternalNumberBehavior" factory=".adapters.InternalNumberSearchableExtender" />
 
   <subscriber
-      for="plone.dexterity.interfaces.IDexterityContent
+      for=".behavior.IInternalNumberBehavior
            zope.lifecycleevent.interfaces.IObjectAddedEvent"
       handler=".subscribers.object_added"
       />
