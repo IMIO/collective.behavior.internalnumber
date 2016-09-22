@@ -2,6 +2,7 @@
 """Subscribers."""
 
 from plone import api
+from Products.CMFPlone.utils import safe_hasattr
 
 from .browser.settings import get_settings
 from . import TYPE_CONFIG
@@ -9,8 +10,8 @@ from . import TYPE_CONFIG
 
 def object_added(obj, event):
     """ Increment the value in registry """
-    # internal_number is empty => no need to increment
-    if not obj.internal_number:
+    # internal_number is unknown or empty => no need to increment
+    if not safe_hasattr(obj, 'internal_number') or not obj.internal_number:
         return
     settings = get_settings()
     pt = obj.portal_type
