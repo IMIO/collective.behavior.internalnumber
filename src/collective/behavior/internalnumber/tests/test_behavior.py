@@ -23,7 +23,7 @@ class TestBehavior(unittest.TestCase):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
         self.tt1 = self.portal['tt1']
-        self.tt2 = api.content.create(container=self.portal, id='tt2', type='testtype', title='My content 2')
+        self.tt2 = api.content.create(container=self.portal, id='tt2', type='testtype', title='Another title')
         self.tt2.reindexObject()
         api.portal.set_registry_record(TYPE_CONFIG, [{u'portal_type': u'testtype', u'uniqueness': True,
                                                       u'default_number': 1, u'default_expression': u'number'}])
@@ -48,6 +48,10 @@ class TestBehavior(unittest.TestCase):
         pc = self.portal.portal_catalog
         brains = pc(portal_type='testtype', SearchableText='AA123')
         self.assertEqual(len(brains), 1)
+        self.assertEqual(brains[0].getObject(), self.tt1)
+        brains = pc(portal_type='testtype', SearchableText='content')
+        self.assertEqual(len(brains), 1)
+        self.assertEqual(brains[0].getObject(), self.tt1)
 
     def test_validator(self):
         self.assertRaises(Invalid, validateIndexValueUniqueness, self.tt2, 'testtype', 'internal_number', 'AA123')
