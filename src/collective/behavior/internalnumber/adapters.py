@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from zope.component import adapts
-from zope.interface import implements
-
+from .behavior import IInternalNumberBehavior
+from collective.dexteritytextindexer.interfaces import IDynamicTextIndexExtender
 from plone.indexer import indexer
 from Products.CMFCore.interfaces import IContentish
-from Products.CMFPlone.utils import base_hasattr, safe_unicode
+from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import safe_unicode
 from Products.PluginIndexes.common.UnIndex import _marker as common_marker
-
-from collective import dexteritytextindexer
-
-from .behavior import IInternalNumberBehavior
+from zope.component import adapts
+from zope.interface import implements
 
 
 @indexer(IContentish)
@@ -26,7 +24,7 @@ class InternalNumberSearchableExtender(object):
         Extends SearchableText of IInternalNumberBehavior objects.
     """
     adapts(IInternalNumberBehavior)
-    implements(dexteritytextindexer.IDynamicTextIndexExtender)
+    implements(IDynamicTextIndexExtender)
 
     def __init__(self, context):
         self.context = context
