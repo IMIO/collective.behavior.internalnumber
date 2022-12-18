@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .behavior import IInternalNumberBehavior
+from collective.behavior.internalnumber.behavior import IInternalNumberBehavior
 from collective.dexteritytextindexer.interfaces import IDynamicTextIndexExtender
 from plone.indexer import indexer
 from Products.CMFCore.interfaces import IContentish
