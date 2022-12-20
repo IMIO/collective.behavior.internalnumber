@@ -9,9 +9,7 @@ from . import TYPE_CONFIG
 
 
 def object_added(obj, event):
-    """Increments the registry default_number for the type or globally (if one of both configured).
-
-    data transfer: ❓"""
+    """Increments the registry default_number for the type or globally (if one of both configured)."""
     # internal_number is unknown or empty => no need to increment
     if not base_hasattr(obj, 'internal_number') or not obj.internal_number:
         return
