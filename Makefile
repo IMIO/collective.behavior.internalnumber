@@ -27,19 +27,18 @@ help:
 	@pyenv local `pyenv versions |grep "  $(python)" |xargs`
 	@echo "Local pyenv version is `cat .python-version`"
 
-bin/buildout: oneof-plone .python-version  ## Setups environment
+bin/buildout: .python-version  ## Setups environment
 	virtualenv .
 	./bin/pip install --upgrade pip
 	./bin/pip install -r requirements.txt
 
 .PHONY: setup
-setup: cleanall bin/buildout ## Setups environment
+setup: cleanall oneof-plone bin/buildout ## Setups environment
 
 .PHONY: buildout
-buildout: bin/buildout  ## Runs setup and buildout
+buildout: oneof-plone bin/buildout  ## Runs setup and buildout
 	rm -f .installed.cfg .mr.developer.cfg
-	# if ! test -f bin/buildout;then make setup;fi
-	bin/buildout -t 5
+	bin/buildout -Nt 5
 
 .PHONY: cleanall
 cleanall:  ## Cleans all installed buildout files
