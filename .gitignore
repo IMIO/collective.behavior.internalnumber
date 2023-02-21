@@ -1,6 +1,8 @@
 .coverage
 .installed.cfg
 .mr.developer.cfg
+.plone-version
+.python-version
 *.egg-info
 *.log
 *.mo

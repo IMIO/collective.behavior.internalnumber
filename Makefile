@@ -6,6 +6,9 @@ ifeq (, $(shell which pyenv))
   $(error "pyenv command not found! Aborting")
 endif
 plones=4.3 5.2 6.0
+ifndef plone
+  plone=$(shell cat .plone-version)
+endif
 ifndef python
 ifeq ($(plone),4.3)
   python=2.7
@@ -31,6 +34,7 @@ bin/buildout: .python-version  ## Setups environment
 	virtualenv .
 	./bin/pip install --upgrade pip
 	./bin/pip install -r requirements-$(plone).txt
+	@echo "$(plone)" > .plone-version
 
 .PHONY: setup
 setup: cleanall oneof-plone bin/buildout ## Setups environment
@@ -38,15 +42,17 @@ setup: cleanall oneof-plone bin/buildout ## Setups environment
 .PHONY: buildout
 buildout: oneof-plone bin/buildout  ## Runs setup and buildout
 	rm -f .installed.cfg .mr.developer.cfg
-	bin/buildout -Nt 5
+	bin/buildout -Nt 5 -c test-$(plone).cfg
 
 .PHONY: cleanall
 cleanall:  ## Cleans all installed buildout files
-	rm -fr bin include lib local share develop-eggs downloads eggs parts .installed.cfg .mr.developer.cfg .python-version pyvenv.cfg
+	rm -fr bin include lib local share develop-eggs downloads eggs parts .installed.cfg .mr.developer.cfg .python-version .plone-version pyvenv.cfg
 
 .PHONY: which-python
-which-python: oneof-plone  ## Displays which python will be used
-	@echo $(python)
+which-python: oneof-plone  ## Displays versions information
+	@echo "plone var = $(plone)"
+	@echo "python var = $(python)"
+	@echo "python env = `cat .python-version`"
 
 .PHONY: guard-%
 guard-%:
