@@ -30,7 +30,7 @@ help:
 bin/buildout: .python-version  ## Setups environment
 	virtualenv .
 	./bin/pip install --upgrade pip
-	./bin/pip install -r requirements.txt
+	./bin/pip install -r requirements-$(plone).txt
 
 .PHONY: setup
 setup: cleanall oneof-plone bin/buildout ## Setups environment
