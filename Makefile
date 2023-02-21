@@ -1,5 +1,5 @@
 #!/usr/bin/make
-# pyenv is a requirement
+# pyenv is a requirement, with 2.7, 3.7 and 3.10 python versions, and virtualenv installed in each version
 # plone parameter must be passed to create environment
 SHELL:=/bin/bash
 ifeq (, $(shell which pyenv))
@@ -29,6 +29,7 @@ help:
 .python-version:  ## Setups pyenv version
 	@pyenv local `pyenv versions |grep "  $(python)" |xargs`
 	@echo "Local pyenv version is `cat .python-version`"
+	@ if [[ `pyenv which virtualenv` != `pyenv prefix`* ]] ; then echo "You need to install virtualenv in `cat .python-version` pyenv python"; exit 1; fi
 
 bin/buildout: .python-version  ## Setups environment
 	virtualenv .
