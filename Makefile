@@ -6,13 +6,16 @@ ifeq (, $(shell which pyenv))
   $(error "pyenv command not found! Aborting")
 endif
 plones=4.3 5.2 6.0
+ifndef python
 ifeq ($(plone),4.3)
   python=2.7
-else
+endif
+ifeq ($(plone),5.2)
   python=3.7
 endif
 ifeq ($(plone),6.0)
   python=3.10
+endif
 endif
 
 all: buildout
@@ -42,12 +45,13 @@ buildout: bin/buildout  ## Runs setup and buildout
 cleanall:  ## Cleans all installed buildout files
 	rm -fr bin include lib local share develop-eggs downloads eggs parts .installed.cfg .mr.developer.cfg .python-version pyvenv.cfg
 
+.PHONY: which-python
+which-python: oneof-plone  ## Displays which python will be used
+	@echo $(python)
+
 .PHONY: guard-%
 guard-%:
-	@ if [ "${${*}}" = "" ]; then \
-			echo "You must give a value for variable '$*' : like $*=xxx"; \
-			exit 1; \
-	fi
+	@ if [ "${${*}}" = "" ]; then echo "You must give a value for variable '$*' : like $*=xxx"; exit 1; fi
 
 .PHONY: oneof-%
 oneof-%:
