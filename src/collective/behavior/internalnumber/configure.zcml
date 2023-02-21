@@ -7,7 +7,9 @@
 
   <i18n:registerTranslations directory="locales" />
 
-  <includeDependencies package="." />
+  <include package="collective.behavior.talcondition" />
+  <include package="collective.dexteritytextindexer" />
+  <include package="collective.z3cform.datagridfield" />
 
   <include package="plone.behavior" file="meta.zcml" />
 
