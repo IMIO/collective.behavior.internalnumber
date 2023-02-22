@@ -1,14 +1,18 @@
 #!/usr/bin/make
 # pyenv is a requirement, with 2.7, 3.7 and 3.10 python versions, and virtualenv installed in each version
 # plone parameter must be passed to create environment
-SHELL:=/bin/bash
+
+SHELL=/bin/bash
+plones=4.3 5.2 6.0
+
 ifeq (, $(shell which pyenv))
   $(error "pyenv command not found! Aborting")
 endif
-plones=4.3 5.2 6.0
+
 ifndef plone
   plone=$(shell cat .plone-version)
 endif
+
 ifndef python
 ifeq ($(plone),4.3)
   python=2.7
