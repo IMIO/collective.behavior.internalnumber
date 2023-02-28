@@ -6,9 +6,13 @@ from plone.indexer import indexer
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
-from Products.PluginIndexes.common.UnIndex import _marker as common_marker
 from zope.component import adapts
 from zope.interface import implementer
+
+try:
+    from Products.PluginIndexes.common.UnIndex import _marker as common_marker  # noqa
+except ImportError as err:
+    from Products.PluginIndexes.unindex import _marker as common_marker  # noqa
 
 
 @indexer(IContentish)
