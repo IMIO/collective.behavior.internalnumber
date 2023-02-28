@@ -15,7 +15,7 @@ from zope import schema
 from zope.component import getAllUtilitiesRegisteredFor
 from zope.component import getUtility
 from zope.i18n.interfaces import ITranslationDomain
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import Interface
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -62,6 +62,7 @@ class SettingsEditForm(RegistryEditForm):
     schema = IInternalNumberConfig
     label = _("Internal number behavior configuration")
 
+
 SettingsView = layout.wrap_form(SettingsEditForm, ControlPanelFormWrapper)
 
 
@@ -85,9 +86,9 @@ def get_pt_settings(pt):
     return {}
 
 
+@implementer(IVocabularyFactory)
 class DxPortalTypesVocabulary(object):
     """ Active mail types vocabulary """
-    implements(IVocabularyFactory)
 
     def __call__(self, context):
         terms = [SimpleTerm('glo_bal', 'glo_bal', _(u'Global configuration'))]

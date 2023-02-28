@@ -8,7 +8,7 @@ from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_unicode
 from Products.PluginIndexes.common.UnIndex import _marker as common_marker
 from zope.component import adapts
-from zope.interface import implements
+from zope.interface import implementer
 
 
 @indexer(IContentish)
@@ -19,12 +19,12 @@ def internal_number_index(obj):
     return common_marker
 
 
+@implementer(IDynamicTextIndexExtender)
 class InternalNumberSearchableExtender(object):
     """
         Extends SearchableText of IInternalNumberBehavior objects.
     """
     adapts(IInternalNumberBehavior)
-    implements(IDynamicTextIndexExtender)
 
     def __init__(self, context):
         self.context = context
