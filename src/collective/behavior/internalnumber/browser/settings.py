@@ -1,24 +1,25 @@
 # -*- coding: utf-8 -*-
 
-from zope import schema
-from zope.component import getAllUtilitiesRegisteredFor, getUtility
-from zope.i18n.interfaces import ITranslationDomain
-from zope.interface import Interface, implements
-from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-from z3c.form import form
-
+from collective.behavior.internalnumber import _
+from collective.behavior.internalnumber import TYPE_CONFIG
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield.registry import DictRow
 from plone import api
-from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
+from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.autoform.directives import widget
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.z3cform import layout
-
-from collective.z3cform.datagridfield import DataGridFieldFactory
-from collective.z3cform.datagridfield.registry import DictRow
-
-from .. import _, TYPE_CONFIG
+from z3c.form import form
+from zope import schema
+from zope.component import getAllUtilitiesRegisteredFor
+from zope.component import getUtility
+from zope.i18n.interfaces import ITranslationDomain
+from zope.interface import implements
+from zope.interface import Interface
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 class IPortalTypeConfigSchema(Interface):

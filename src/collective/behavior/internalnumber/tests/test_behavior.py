@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 
-import unittest
-
+from collective.behavior.internalnumber import TYPE_CONFIG
+from collective.behavior.internalnumber.behavior import internal_number_default
+from collective.behavior.internalnumber.behavior import InternalNumberValidator
+from collective.behavior.internalnumber.behavior import validateIndexValueUniqueness
+from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
+from plone import api
+from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import getUtility
 from zope.interface import Invalid
 
-from plone import api
-from plone.dexterity.interfaces import IDexterityFTI
-
-from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
-
-from .. import TYPE_CONFIG
-from ..behavior import validateIndexValueUniqueness, InternalNumberValidator, internal_number_default
+import unittest
 
 
 class TestBehavior(unittest.TestCase):

@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from zope import component
-from zope import schema
-from zope.interface import alsoProvides, Invalid
-from z3c.form import validator, widget
-
+from collective.behavior.internalnumber import _
+from collective.behavior.internalnumber.browser.settings import get_pt_settings
+from collective.behavior.talcondition.utils import _evaluateExpression
 from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
-
 from Products.CMFPlone.utils import safe_unicode
-from collective.behavior.talcondition.utils import _evaluateExpression
-
-from . import _
-from browser.settings import get_pt_settings
+from z3c.form import validator
+from z3c.form import widget
+from zope import component
+from zope import schema
+from zope.interface import alsoProvides
+from zope.interface import Invalid
 
 
 class IInternalNumberBehavior(model.Schema):
