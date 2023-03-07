@@ -9,7 +9,7 @@ from zope.schema._bootstrapinterfaces import WrongType
 import unittest
 
 
-class CommonSetup():
+class CommonSetup():  # noqa
 
     def set_installer(self):
         if PLONE_VERSION >= '5.1':
@@ -17,7 +17,7 @@ class CommonSetup():
             self.installer = get_installer(self.portal, self.layer["request"])
             self.ipi = self.installer.is_product_installed
         else:
-            self.installer = api.portal.get_tool('portal_quickinstaller')
+            self.installer = api.portal.get_tool('portal_quickinstaller')  # noqa
             self.ipi = self.installer.isProductInstalled
 
 
