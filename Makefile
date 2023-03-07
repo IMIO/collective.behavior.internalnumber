@@ -1,6 +1,6 @@
 #!/usr/bin/make
 # pyenv is a requirement, with 2.7, 3.7 and 3.10 python versions, and virtualenv installed in each version
-# plone parameter must be passed to create environment
+# plone parameter must be passed to create environment or after a make cleanall
 
 SHELL=/bin/bash
 plones=4.3 5.2 6.0
@@ -27,6 +27,7 @@ endif
 
 all: buildout
 
+.PHONY: help
 help:
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
@@ -58,6 +59,14 @@ which-python: oneof-plone  ## Displays versions information
 	@echo "plone var = $(plone)"
 	@echo "python var = $(python)"
 	@echo "python env = `cat .python-version`"
+
+.PHONY: vcr
+vcr:  ## Shows requirements in checkversion-r.html
+	@bin/versioncheck -rbo checkversion-r-$(plone).html test-$(plone).cfg
+
+.PHONY: vcn
+vcn:  ## Shows newer packages in checkversion-n.html
+	@bin/versioncheck -npbo checkversion-n-$(plone).html test-$(plone).cfg
 
 .PHONY: guard-%
 guard-%:

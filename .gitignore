@@ -2,6 +2,7 @@
 .installed.cfg
 .mr.developer.cfg
 .plone-version
+.plone.versioncheck.*
 .python-version
 *.egg-info
 *.log
@@ -11,6 +12,7 @@
 # dirs
 bin/
 buildout-cache/
+checkversion*.html
 develop-eggs/
 eggs/
 htmlcov/
