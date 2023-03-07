@@ -9,7 +9,7 @@ on:
   pull_request:
 
 env:
-  coverage-python: 3.10
+  coverage-python: "3.10"
   coverage-plone: "6.0"
 
 jobs:
