@@ -4,6 +4,7 @@
 
 SHELL=/bin/bash
 plones=4.3 5.2 6.0
+b_o=
 
 ifeq (, $(shell which pyenv))
   $(error "pyenv command not found! Aborting")
@@ -11,6 +12,7 @@ endif
 
 ifndef plone
   plone=$(shell cat .plone-version)
+  b_o=-N
 endif
 
 ifndef python
@@ -48,7 +50,7 @@ setup: cleanall oneof-plone bin/buildout ## Setups environment
 .PHONY: buildout
 buildout: oneof-plone bin/buildout  ## Runs setup and buildout
 	rm -f .installed.cfg .mr.developer.cfg
-	bin/buildout -Nt 5 -c test-$(plone).cfg
+	bin/buildout -t 5 -c test-$(plone).cfg ${b_o}
 
 .PHONY: cleanall
 cleanall:  ## Cleans all installed buildout files
