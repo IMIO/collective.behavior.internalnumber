@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-
-import unittest
-
+from collective.behavior.internalnumber import PLONE_VERSION
+from collective.behavior.internalnumber import TYPE_CONFIG
+from collective.behavior.internalnumber.browser.settings import DxPortalTypesVocabulary
+from collective.behavior.internalnumber.browser.settings import get_pt_settings
+from collective.behavior.internalnumber.browser.settings import get_settings
+from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
+from operator import itemgetter
 from plone import api
 
-from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
-
-from .. import TYPE_CONFIG
-from ..browser.settings import get_settings, get_pt_settings, DxPortalTypesVocabulary
+import unittest
 
 
 class TestSettings(unittest.TestCase):
@@ -37,5 +38,16 @@ class TestSettings(unittest.TestCase):
 
     def test_DxPortalTypesVocabulary(self):
         voc_inst = DxPortalTypesVocabulary()
-        voc_list = [(t.value, t.title) for t in voc_inst(self.portal)]
-        self.assertEqual(voc_list, [('glo_bal', u'Global configuration'), ('testtype', u'Test type')])
+        voc_list = sorted([(t.value, t.title) for t in voc_inst(self.portal)], key=itemgetter(1))
+        if PLONE_VERSION == '4.3':
+            res = [('glo_bal', u'Global configuration'), ('testtype', u'Test type')]
+        elif PLONE_VERSION == '5.2':
+            res = [('Collection', 'Collection'), ('Event', 'Event'), ('File', 'File'), ('Folder', 'Folder'),
+                   ('glo_bal', 'Global configuration'), ('Image', 'Image'), ('Link', 'Link'),
+                   ('News Item', 'News Item'), ('Document', 'Page'), ('testtype', 'Test type')]
+        elif PLONE_VERSION > '5.2':
+            res = [('Collection', 'Collection'), ('Event', 'Event'), ('File', 'File'), ('Folder', 'Folder'),
+                   ('glo_bal', 'Global configuration'), ('Image', 'Image'), ('Link', 'Link'),
+                   ('News Item', 'News Item'), ('Document', 'Page'), ('Plone Site', 'Plone Site'),
+                   ('testtype', 'Test type')]
+        self.assertEqual(voc_list, res)
