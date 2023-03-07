@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """Subscribers."""
 
+from collective.behavior.internalnumber import TYPE_CONFIG
+from collective.behavior.internalnumber.browser.settings import get_settings
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
-
-from .browser.settings import get_settings
-from . import TYPE_CONFIG
 
 
 def object_added(obj, event):

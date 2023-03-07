@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
+from collective.behavior.internalnumber import TYPE_CONFIG
+from plone import api
 from Products.CMFPlone.interfaces import INonInstallable
 from zope.interface import implementer
-
-from plone import api
-
-from . import TYPE_CONFIG
 
 
 @implementer(INonInstallable)

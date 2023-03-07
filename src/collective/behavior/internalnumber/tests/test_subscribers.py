@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import unittest
-
+from collective.behavior.internalnumber import TYPE_CONFIG
+from collective.behavior.internalnumber.browser.settings import get_pt_settings
+from collective.behavior.internalnumber.subscribers import object_added
+from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
 from plone import api
 
-from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
-
-from .. import TYPE_CONFIG
-from ..browser.settings import get_pt_settings
-from ..subscribers import object_added
+import unittest
 
 
 class TestSubscribers(unittest.TestCase):

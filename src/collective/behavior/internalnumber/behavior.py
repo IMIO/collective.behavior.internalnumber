@@ -21,6 +21,7 @@ class IInternalNumberBehavior(model.Schema):
         title=_(u"Internal number"),
         required=False,)
 
+
 alsoProvides(IInternalNumberBehavior, IFormFieldProvider)
 
 
@@ -73,6 +74,7 @@ def internal_number_default(data):
     ret = _evaluateExpression(data.context, settings.get('expr', ''), extra_expr_ctx={'number': settings.get('nb', 0)},
                               empty_expr_is_true='')
     return ret
+
 
 DefaultinternalNumber = widget.ComputedWidgetAttribute(internal_number_default,
                                                        field=IInternalNumberBehavior['internal_number'])

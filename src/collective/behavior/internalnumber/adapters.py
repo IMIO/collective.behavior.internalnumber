@@ -9,9 +9,10 @@ from Products.CMFPlone.utils import safe_unicode
 from zope.component import adapts
 from zope.interface import implementer
 
+
 try:
     from Products.PluginIndexes.common.UnIndex import _marker as common_marker  # noqa
-except ImportError as err:
+except ImportError:
     from Products.PluginIndexes.unindex import _marker as common_marker  # noqa
 
 
