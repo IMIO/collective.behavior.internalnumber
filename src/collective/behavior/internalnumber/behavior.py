@@ -70,7 +70,7 @@ component.provideAdapter(InternalNumberValidator)
 
 def internal_number_default(data):
     """ Default value of internal_number """
-    if data.view is None:
+    if data.view is None or not hasattr(data.view, 'portal_type'):
         return u''
     settings = get_pt_settings(data.view.portal_type)
     ret = _evaluateExpression(data.context, settings.get('expr', ''), extra_expr_ctx={'number': settings.get('nb', 0)},
