@@ -96,9 +96,10 @@ def set_settings(settings):
     api.portal.set_registry_record(TYPE_CONFIG, config)
 
 
-def increment_nb_for(obj):
+def increment_nb_for(obj, bypass_attr_check=False):
     # internal_number is unknown or empty => no need to increment
-    if not base_hasattr(obj, 'internal_number') or not obj.internal_number:
+    if not bypass_attr_check and \
+       (not base_hasattr(obj, 'internal_number') or not obj.internal_number):
         return
 
     settings = get_settings()
