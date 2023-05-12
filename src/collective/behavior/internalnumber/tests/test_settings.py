@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from collective.behavior.internalnumber import PLONE_VERSION
 from collective.behavior.internalnumber import TYPE_CONFIG
+from collective.behavior.internalnumber.browser.settings import decrement_if_last_nb
+from collective.behavior.internalnumber.browser.settings import decrement_nb_for
 from collective.behavior.internalnumber.browser.settings import DxPortalTypesVocabulary
 from collective.behavior.internalnumber.browser.settings import get_pt_settings
 from collective.behavior.internalnumber.browser.settings import get_settings
+from collective.behavior.internalnumber.browser.settings import increment_nb_for
+from collective.behavior.internalnumber.browser.settings import set_settings
 from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
 from operator import itemgetter
 from plone import api
@@ -51,3 +55,35 @@ class TestSettings(unittest.TestCase):
                    ('News Item', 'News Item'), ('Document', 'Page'), ('Plone Site', 'Plone Site'),
                    ('testtype', 'Test type')]
         self.assertEqual(voc_list, res)
+
+    def test_increment_nb_for(self):
+        self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 1, 'u': True})
+        self.assertEqual(increment_nb_for(self.tt1), 2)
+        self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 2, 'u': True})
+
+    def test_decrement_nb_for(self):
+        self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 1, 'u': True})
+        self.assertEqual(increment_nb_for(self.tt1), 2)
+        self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 2, 'u': True})
+        self.assertEqual(decrement_nb_for(self.tt1), 1)
+        self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 1, 'u': True})
+
+    def test_decrement_if_last_nb(self):
+        self.tt1.internal_number = 1
+        self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 1, 'u': True})
+        self.assertEqual(increment_nb_for(self.tt1), 2)
+        self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 2, 'u': True})
+        # change tt1 internal_number is not the last, not decremented
+        self.tt1.internal_number = 3
+        self.assertIsNone(decrement_if_last_nb(self.tt1))
+        # set internal_number as last nb
+        self.tt1.internal_number = 1
+        self.assertEqual(decrement_if_last_nb(self.tt1), 1)
+
+    def test_decrement_if_last_nb_complex_internal_number(self):
+        self.assertEqual(self.tt1.internal_number, 'AA123')
+        settings = get_settings()
+        settings[self.tt1.portal_type]['nb'] = 124
+        settings[self.tt1.portal_type]['expr'] = u"string:AA${number}"
+        set_settings(settings)
+        self.assertEqual(decrement_if_last_nb(self.tt1), 123)

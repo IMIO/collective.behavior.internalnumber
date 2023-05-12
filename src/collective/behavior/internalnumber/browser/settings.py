@@ -2,6 +2,7 @@
 
 from collective.behavior.internalnumber import _
 from collective.behavior.internalnumber import TYPE_CONFIG
+from collective.behavior.talcondition.utils import _evaluateExpression
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.registry import DictRow
 from plone import api
@@ -96,10 +97,14 @@ def set_settings(settings):
     api.portal.set_registry_record(TYPE_CONFIG, config)
 
 
+def _internal_number_is_used(obj):
+    """ """
+    return base_hasattr(obj, 'internal_number') and obj.internal_number
+
+
 def increment_nb_for(obj, bypass_attr_check=False):
     # internal_number is unknown or empty => no need to increment
-    if not bypass_attr_check and \
-       (not base_hasattr(obj, 'internal_number') or not obj.internal_number):
+    if not bypass_attr_check and not _internal_number_is_used(obj):
         return
 
     settings = get_settings()
@@ -121,7 +126,7 @@ def increment_nb_for(obj, bypass_attr_check=False):
 
 def decrement_nb_for(obj):
     # internal_number is unknown or empty => no need to decrement
-    if not base_hasattr(obj, 'internal_number') or not obj.internal_number:
+    if not _internal_number_is_used(obj):
         return
 
     settings = get_settings()
@@ -143,7 +148,7 @@ def decrement_nb_for(obj):
 
 def decrement_if_last_nb(obj):
     # internal_number is unknown or empty => no need to decrement
-    if not base_hasattr(obj, 'internal_number') or not obj.internal_number:
+    if not _internal_number_is_used(obj):
         return
 
     internal_number = getattr(obj, "internal_number")
@@ -151,7 +156,13 @@ def decrement_if_last_nb(obj):
     pt = obj.portal_type
     updated = False
     nb = None
-    if pt in settings and internal_number == settings[pt]['nb'] - 1:
+
+    if pt in settings and \
+       internal_number == _evaluateExpression(
+            obj,
+            settings[pt]['expr'],
+            extra_expr_ctx={'number': settings[pt]['nb'] - 1},
+            empty_expr_is_true=''):
         updated = True
         settings[pt]['nb'] -= 1
         nb = settings[pt]['nb']
