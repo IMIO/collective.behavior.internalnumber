@@ -60,6 +60,11 @@ class TestSettings(unittest.TestCase):
         self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 1, 'u': True})
         self.assertEqual(increment_nb_for(self.tt1), 2)
         self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 2, 'u': True})
+        # glo_bal
+        settings = get_settings()
+        settings.pop(self.tt1.portal_type)
+        set_settings(settings)
+        self.assertEqual(increment_nb_for(self.tt1), 2)
 
     def test_decrement_nb_for(self):
         self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 1, 'u': True})
@@ -67,6 +72,12 @@ class TestSettings(unittest.TestCase):
         self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 2, 'u': True})
         self.assertEqual(decrement_nb_for(self.tt1), 1)
         self.assertEqual(get_pt_settings(self.tt1.portal_type), {'expr': u'number', 'nb': 1, 'u': True})
+        # glo_bal
+        settings = get_settings()
+        settings.pop(self.tt1.portal_type)
+        settings['glo_bal']['nb'] = 5
+        set_settings(settings)
+        self.assertEqual(decrement_nb_for(self.tt1), 4)
 
     def test_decrement_if_last_nb(self):
         self.tt1.internal_number = 1
@@ -87,3 +98,10 @@ class TestSettings(unittest.TestCase):
         settings[self.tt1.portal_type]['expr'] = u"string:AA${number}"
         set_settings(settings)
         self.assertEqual(decrement_if_last_nb(self.tt1), 123)
+        # glo_bal
+        settings.pop(self.tt1.portal_type)
+        settings['glo_bal']['nb'] = 111
+        settings['glo_bal']['expr'] = u"string:AA${number}"
+        set_settings(settings)
+        self.tt1.internal_number = 'AA110'
+        self.assertEqual(decrement_if_last_nb(self.tt1), 110)

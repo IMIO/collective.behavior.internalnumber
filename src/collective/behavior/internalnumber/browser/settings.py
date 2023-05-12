@@ -157,17 +157,19 @@ def decrement_if_last_nb(obj):
     updated = False
     nb = None
 
-    if pt in settings and \
-       internal_number == _evaluateExpression(
+    def _compute_expr(obj, pt_settings):
+        return _evaluateExpression(
             obj,
-            settings[pt]['expr'],
-            extra_expr_ctx={'number': settings[pt]['nb'] - 1},
-            empty_expr_is_true=''):
+            pt_settings['expr'],
+            extra_expr_ctx={'number': pt_settings['nb'] - 1},
+            empty_expr_is_true='')
+
+    if pt in settings and internal_number == _compute_expr(obj, settings[pt]):
         updated = True
         settings[pt]['nb'] -= 1
         nb = settings[pt]['nb']
     elif 'glo_bal' in settings and \
-         internal_number == settings['glo_bal']['nb'] - 1:
+            internal_number == _compute_expr(obj, settings['glo_bal']):
         updated = True
         settings['glo_bal']['nb'] -= 1
         nb = settings['glo_bal']['nb']
