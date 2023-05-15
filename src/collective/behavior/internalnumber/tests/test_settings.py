@@ -78,6 +78,8 @@ class TestSettings(unittest.TestCase):
         settings['glo_bal']['nb'] = 5
         set_settings(settings)
         self.assertEqual(decrement_nb_for(self.tt1), 4)
+        # internal_number attr not used
+        self.assertIsNone(decrement_nb_for(self.portal))
 
     def test_decrement_if_last_nb(self):
         self.tt1.internal_number = 1
@@ -90,6 +92,8 @@ class TestSettings(unittest.TestCase):
         # set internal_number as last nb
         self.tt1.internal_number = 1
         self.assertEqual(decrement_if_last_nb(self.tt1), 1)
+        # internal_number attr not used
+        self.assertIsNone(decrement_if_last_nb(self.portal))
 
     def test_decrement_if_last_nb_complex_internal_number(self):
         self.assertEqual(self.tt1.internal_number, 'AA123')
