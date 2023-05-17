@@ -2,6 +2,7 @@
 
 from collective.behavior.internalnumber import _
 from collective.behavior.internalnumber import TYPE_CONFIG
+from collective.behavior.talcondition.utils import _evaluateExpression
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.registry import DictRow
 from plone import api
@@ -10,6 +11,7 @@ from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.autoform.directives import widget
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.z3cform import layout
+from Products.CMFPlone.utils import base_hasattr
 from z3c.form import form
 from zope import schema
 from zope.component import getAllUtilitiesRegisteredFor
@@ -86,6 +88,96 @@ def get_pt_settings(pt):
     return {}
 
 
+def set_settings(settings):
+    config = []
+    for pt in sorted(settings.keys()):
+        config.append({'portal_type': pt, 'uniqueness': settings[pt]['u'],
+                       'default_number': settings[pt]['nb'],
+                       'default_expression': settings[pt]['expr']})
+    api.portal.set_registry_record(TYPE_CONFIG, config)
+
+
+def _internal_number_is_used(obj):
+    """ """
+    return base_hasattr(obj, 'internal_number') and obj.internal_number
+
+
+def increment_nb_for(obj, bypass_attr_check=False):
+    # internal_number is unknown or empty => no need to increment
+    if not bypass_attr_check and not _internal_number_is_used(obj):
+        return
+
+    settings = get_settings()
+    pt = obj.portal_type
+    updated = False
+    nb = None
+    if pt in settings:
+        updated = True
+        settings[pt]['nb'] += 1
+        nb = settings[pt]['nb']
+    elif 'glo_bal' in settings:
+        updated = True
+        settings['glo_bal']['nb'] += 1
+        nb = settings['glo_bal']['nb']
+    if updated:
+        set_settings(settings)
+    return nb
+
+
+def decrement_nb_for(obj):
+    # internal_number is unknown or empty => no need to decrement
+    if not _internal_number_is_used(obj):
+        return
+
+    settings = get_settings()
+    pt = obj.portal_type
+    updated = False
+    nb = None
+    if pt in settings:
+        updated = True
+        settings[pt]['nb'] -= 1
+        nb = settings[pt]['nb']
+    elif 'glo_bal' in settings:
+        updated = True
+        settings['glo_bal']['nb'] -= 1
+        nb = settings['glo_bal']['nb']
+    if updated:
+        set_settings(settings)
+    return nb
+
+
+def decrement_if_last_nb(obj):
+    # internal_number is unknown or empty => no need to decrement
+    if not _internal_number_is_used(obj):
+        return
+
+    internal_number = getattr(obj, "internal_number")
+    settings = get_settings()
+    pt = obj.portal_type
+    updated = False
+    nb = None
+
+    def _compute_expr(obj, pt_settings):
+        return _evaluateExpression(
+            obj,
+            pt_settings['expr'],
+            extra_expr_ctx={'number': pt_settings['nb'] - 1},
+            empty_expr_is_true='')
+
+    if pt in settings and internal_number == _compute_expr(obj, settings[pt]):
+        updated = True
+        settings[pt]['nb'] -= 1
+        nb = settings[pt]['nb']
+    elif 'glo_bal' in settings and \
+            internal_number == _compute_expr(obj, settings['glo_bal']):
+        updated = True
+        settings['glo_bal']['nb'] -= 1
+        nb = settings['glo_bal']['nb']
+    if updated:
+        set_settings(settings)
+    return nb
+
+
 @implementer(IVocabularyFactory)
 class DxPortalTypesVocabulary(object):
     """ Active mail types vocabulary """
@@ -93,8 +185,9 @@ class DxPortalTypesVocabulary(object):
     def __call__(self, context):
         terms = [SimpleTerm('glo_bal', 'glo_bal', _(u'Global configuration'))]
         ftis = getAllUtilitiesRegisteredFor(IDexterityFTI)
+        portal = api.portal.get()
         for fti in ftis:
             translation_domain = getUtility(ITranslationDomain, fti.i18n_domain)
-            terms.append(SimpleTerm(fti.id, fti.id, translation_domain.translate(fti.title,
-                                                                                 context=api.portal.get().REQUEST)))
+            terms.append(SimpleTerm(fti.id, fti.id, translation_domain.translate(
+                fti.title, context=portal.REQUEST)))
         return SimpleVocabulary(terms)
