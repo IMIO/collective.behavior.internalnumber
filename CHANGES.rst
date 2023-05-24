@@ -13,6 +13,9 @@ Changelog
   `settings.decrement_nb_for` and `settings.decrement_if_last_nb` functions.
   Added helper function `settings.set_settings`.
   [gbastien]
+- Fixed `ConnectionStateError` while setting `registry[TYPE_CONFIG]`
+  in tests and profile is applied several times.
+  [gbastien]
 
 0.1 (2017-05-31)
 ----------------

@@ -3,7 +3,10 @@
 from plone import api
 from zope.i18nmessageid import MessageFactory
 
+import logging
 
+
+logger = logging.getLogger('collective.behavior.internalnumber')
 _ = MessageFactory('collective.behavior.internalnumber')
 
 REGISTRY_KEY = 'collective.behavior.internalnumber.browser.settings.IInternalNumberConfig'
