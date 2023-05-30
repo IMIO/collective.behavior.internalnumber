@@ -2,6 +2,14 @@
    If you want to learn more about writing documentation, please check out: http://docs.plone.org/about/documentation_styleguide.html
    This text does not appear on pypi or github. It is a comment.
 
+.. image:: https://coveralls.io/repos/github/IMIO/collective.behavior.internalnumber/badge.svg
+    :target: https://coveralls.io/github/IMIO/collective.behavior.internalnumber
+
+.. image:: http://img.shields.io/pypi/v/collective.behavior.internalnumber.svg
+   :alt: PyPI badge
+   :target: https://pypi.org/project/collective.behavior.internalnumber
+
+
 ==============================================================================
 collective.behavior.internalnumber
 ==============================================================================
