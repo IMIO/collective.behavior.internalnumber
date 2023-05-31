@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.2 (unreleased)
+0.2 (2023-05-31)
 ----------------
 
 - Made compliant with Plone 4.3, 5.2 and 6.0
