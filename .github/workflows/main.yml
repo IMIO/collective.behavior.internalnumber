@@ -8,10 +8,6 @@ on:
   push:
   pull_request:
 
-env:
-  coverage-python: "3.10"
-  coverage-plone: "6.0"
-
 jobs:
   test:
     runs-on: ubuntu-22.04
@@ -35,6 +31,7 @@ jobs:
           command: pyenv -v
       - name: Setup Env
         run: |
+          mkdir -p buildout-cache/{eggs,downloads}
           pip install -r requirements-${{ matrix.plone }}.txt
       - name: Cache eggs
         uses: actions/cache@v2
@@ -54,16 +51,23 @@ jobs:
           bin/test -t !robot
   coverage:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: "3.10.11"
+            plone: "6.0"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: "gabrielfalcao/pyenv-action@v14"
         with:
-          python-version: ${{ env.coverage-python }}
+          python-version: ${{ matrix.python }}
+          command: pyenv -v
       - name: Setup Env
         run: |
-          pip install -r requirements-${{env.coverage-plone}}.txt
+          pip install -r requirements-${{ matrix.plone }}.txt
           pip install -U coveralls coverage
       - name: Cache eggs
         uses: actions/cache@v2
@@ -71,11 +75,11 @@ jobs:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ env.coverage-plone }}
-          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ env.coverage-plone }}
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
+          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
       - name: buildout
         run: |
-          sed -ie "s#test.cfg#test-${{env.coverage-plone}}.cfg#" gha.cfg
+          sed -ie "s#test.cfg#test-${{matrix.plone}}.cfg#" gha.cfg
           buildout -c gha.cfg
       - name: code-analysis
         run: |
