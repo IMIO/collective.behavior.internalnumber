@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.behavior.internalnumber import PLONE_VERSION
 from collective.behavior.internalnumber import TYPE_CONFIG
 from collective.behavior.internalnumber.behavior import internal_number_default
 from collective.behavior.internalnumber.behavior import InternalNumberValidator
@@ -41,7 +42,10 @@ class TestBehavior(unittest.TestCase):
     def test_searchabletext_index(self):
         fti = getUtility(IDexterityFTI, name='testtype')
         behaviors = list(fti.behaviors)
-        behaviors.append('collective.dexteritytextindexer.behavior.IDexterityTextIndexer')
+        if PLONE_VERSION < '6.0':
+            behaviors.append('collective.dexteritytextindexer.behavior.IDexterityTextIndexer')
+        else:
+            behaviors.append('plone.textindexer')
         fti._updateProperty('behaviors', tuple(behaviors))
         self.tt1.reindexObject()
         pc = self.portal.portal_catalog

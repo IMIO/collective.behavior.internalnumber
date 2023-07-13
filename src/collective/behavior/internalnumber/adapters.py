@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from collective.behavior.internalnumber import PLONE_VERSION
 from collective.behavior.internalnumber.behavior import IInternalNumberBehavior
-from collective.dexteritytextindexer.interfaces import IDynamicTextIndexExtender
 from plone.indexer import indexer
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFPlone.utils import base_hasattr
@@ -14,6 +14,11 @@ try:
     from Products.PluginIndexes.common.UnIndex import _marker as common_marker  # noqa
 except ImportError:
     from Products.PluginIndexes.unindex import _marker as common_marker  # noqa
+
+if PLONE_VERSION < '6.0':
+    from collective.dexteritytextindexer.interfaces import IDynamicTextIndexExtender
+else:
+    from plone.app.dexterity.textindexer.interfaces import IDynamicTextIndexExtender
 
 
 @indexer(IContentish)

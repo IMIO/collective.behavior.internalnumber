@@ -48,7 +48,6 @@ setup(
         'Products.GenericSetup>=1.8.2',
         'setuptools',
         'collective.behavior.talcondition',
-        'collective.dexteritytextindexer',
         'collective.z3cform.datagridfield',
     ],
     extras_require={
