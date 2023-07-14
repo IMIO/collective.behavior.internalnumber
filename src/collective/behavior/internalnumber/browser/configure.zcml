@@ -11,6 +11,7 @@
       directory="static"
       />
   <include zcml:condition="installed plone.app.controlpanel" package="plone.app.controlpanel" file="permissions.zcml" />
+  <include zcml:condition="have plone-60" package="Products.CMFPlone.controlpanel" file="permissions.zcml" />
 
   <browser:page
       name="internalnumber-settings"

@@ -1,6 +1,7 @@
 #!/usr/bin/make
 # pyenv is a requirement, with 2.7, 3.7 and 3.10 python versions, and virtualenv installed in each version
-# plone parameter must be passed to create environment or after a make cleanall
+# plone parameter must be passed to create environment 'make setup plone=6.0' or after a make cleanall
+# The original Makefile can be found on https://github.com/IMIO/scripts-buildout
 
 SHELL=/bin/bash
 plones=4.3 5.2 6.0
@@ -12,8 +13,10 @@ ifeq (, $(shell which pyenv))
 endif
 
 ifndef plone
+ifeq (,$(filter setup,$(MAKECMDGOALS)))
   plone=$(old_plone)
   b_o=-N
+endif
 endif
 
 ifndef python
@@ -35,7 +38,7 @@ help:
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
 .python-version:  ## Setups pyenv version
-	@pyenv local `pyenv versions |grep "  $(python)" |xargs`
+	@pyenv local `pyenv versions |grep "  $(python)" |tail -1 |xargs`
 	@echo "Local pyenv version is `cat .python-version`"
 	@ if [[ `pyenv which virtualenv` != `pyenv prefix`* ]] ; then echo "You need to install virtualenv in `cat .python-version` pyenv python (pip install virtualenv)"; exit 1; fi
 
@@ -53,17 +56,22 @@ buildout: oneof-plone bin/buildout  ## Runs setup and buildout
 	rm -f .installed.cfg .mr.developer.cfg
 	bin/buildout -t 5 -c test-$(plone).cfg ${b_o}
 
+.PHONY: test
+test: oneof-plone bin/buildout  ## run bin/test without robot
+	# can be run by example with: make test opt='-t "settings"'
+	bin/test -t \!robot ${opt}
+
 .PHONY: cleanall
 cleanall:  ## Cleans all installed buildout files
-	rm -fr bin include lib local share develop-eggs downloads eggs parts .installed.cfg .mr.developer.cfg .python-version .plone-version pyvenv.cfg
+	rm -fr bin include lib local share develop-eggs downloads eggs parts .installed.cfg .mr.developer.cfg .python-version pyvenv.cfg
 
 .PHONY: backup
 backup:  ## Backups db files
-	@if [ $(old_plone) != '' ] && [ -f var/filestorage/Data.fs ]; then mv var/filestorage/Data.fs var/filestorage/Data.fs.$(old_plone); mv var/blobstorage var/blobstorage.$(old_plone); fi
+	@if [ '$(old_plone)' != '' ] && [ -f var/filestorage/Data.fs ]; then mv var/filestorage/Data.fs var/filestorage/Data.fs.$(old_plone); mv var/blobstorage var/blobstorage.$(old_plone); fi
 
 .PHONY: restore
 restore:  ## Restores db files
-	@if [ $(plone) != '' ] && [ -f var/filestorage/Data.fs.$(plone) ]; then mv var/filestorage/Data.fs.$(plone) var/filestorage/Data.fs; mv var/blobstorage.$(plone) var/blobstorage; fi
+	@if [ '$(plone)' != '' ] && [ -f var/filestorage/Data.fs.$(plone) ]; then mv var/filestorage/Data.fs.$(plone) var/filestorage/Data.fs; mv var/blobstorage.$(plone) var/blobstorage; fi
 
 .PHONY: which-python
 which-python: oneof-plone  ## Displays versions information
