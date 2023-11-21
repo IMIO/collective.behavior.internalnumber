@@ -49,6 +49,15 @@
       post_handler=".setuphandlers.uninstall"
       />
 
+  <genericsetup:upgradeStep
+      title="Upgrade to 1001"
+      description="Remove internal_number catalog metadata"
+      source="1000"
+      destination="1001"
+      handler="collective.behavior.internalnumber.upgrades.upgrade_to_1001"
+      profile="collective.behavior.internalnumber:default"
+      />
+
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="collective.behavior.internalnumber-hiddenprofiles" />

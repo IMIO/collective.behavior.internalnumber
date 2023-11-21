@@ -46,6 +46,12 @@ class TestSetup(unittest.TestCase, CommonSetup):
         self.assertRaises(WrongType, api.portal.set_registry_record, TYPE_CONFIG, 'string')
         api.portal.set_registry_record(TYPE_CONFIG, [])
 
+    def test_catalog(self):
+        catalog = api.portal.get_tool('portal_catalog')
+        # we have an index
+        self.assertTrue('internal_number' in catalog.Indexes)
+        # we no more have a metadata
+        self.assertFalse('internal_number' in catalog.schema())
 
 class TestUninstall(unittest.TestCase, CommonSetup):
 
@@ -68,3 +74,10 @@ class TestUninstall(unittest.TestCase, CommonSetup):
         from collective.behavior.internalnumber.interfaces import ICollectiveBehaviorInternalnumberLayer
         from plone.browserlayer import utils
         self.assertNotIn(ICollectiveBehaviorInternalnumberLayer, utils.registered_layers())
+
+    def test_catalog_cleaned(self):
+        catalog = api.portal.get_tool('portal_catalog')
+        # no more catalog index
+        self.assertFalse('internal_number' in catalog.Indexes)
+        # no more catalog metadata
+        self.assertFalse('internal_number' in catalog.schema())
