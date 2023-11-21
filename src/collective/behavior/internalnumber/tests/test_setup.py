@@ -53,6 +53,7 @@ class TestSetup(unittest.TestCase, CommonSetup):
         # we no more have a metadata
         self.assertFalse('internal_number' in catalog.schema())
 
+
 class TestUninstall(unittest.TestCase, CommonSetup):
 
     layer = COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING
