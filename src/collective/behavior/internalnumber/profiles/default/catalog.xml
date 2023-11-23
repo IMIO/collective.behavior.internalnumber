@@ -3,5 +3,4 @@
     <index name="internal_number" meta_type="FieldIndex">
         <indexed_attr value="internal_number_index"/>
     </index>
-    <column value="internal_number"/>
 </object>

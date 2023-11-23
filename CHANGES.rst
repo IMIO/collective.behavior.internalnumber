@@ -5,8 +5,8 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Removed catalog metadata `internal_number`, added upgrade step to 1001.
+  [gbastien]
 
 0.2 (2023-05-31)
 ----------------
