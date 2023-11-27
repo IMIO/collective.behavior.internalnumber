@@ -14,7 +14,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='collective.behavior.internalnumber',
-    version='0.3.dev0',
+    version='0.3',
     description="Configurable internal number plone behavior",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers

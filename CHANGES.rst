@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.3 (unreleased)
+0.3 (2023-11-27)
 ----------------
 
 - Removed catalog metadata `internal_number`, added upgrade step to 1001.
