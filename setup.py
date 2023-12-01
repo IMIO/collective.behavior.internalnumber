@@ -36,7 +36,11 @@ setup(
     keywords='Python Plone',
     author='Stephan Geulette',
     author_email='support@imio.be',
-    url='https://pypi.python.org/pypi/collective.behavior.internalnumber',
+    # url='https://pypi.python.org/pypi/collective.behavior.internalnumber',
+    project_urls={
+        "PyPI": "https://pypi.python.org/pypi/collective.behavior.internalnumber",
+        "Source": "https://github.com/collective/collective.behavior.internalnumber",
+    },
     license='GPL version 2',
     packages=find_packages('src', exclude=['ez_setup']),
     namespace_packages=['collective', 'collective.behavior'],
