@@ -9,7 +9,6 @@ from collective.behavior.internalnumber.browser.settings import get_settings
 from collective.behavior.internalnumber.browser.settings import increment_nb_for
 from collective.behavior.internalnumber.browser.settings import set_settings
 from collective.behavior.internalnumber.testing import COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING  # noqa
-from operator import itemgetter
 from plone import api
 
 import unittest
@@ -41,8 +40,7 @@ class TestSettings(unittest.TestCase):
         self.assertDictEqual(get_pt_settings('testtype'), {u'u': False, u'nb': 1, 'expr': u'number'})
 
     def test_DxPortalTypesVocabulary(self):
-        voc_inst = DxPortalTypesVocabulary()
-        voc_list = sorted([(t.value, t.title) for t in voc_inst(self.portal)], key=itemgetter(1))
+        voc_list = [(t.value, t.title) for t in DxPortalTypesVocabulary()(self.portal)]
         if PLONE_VERSION == '4.3':
             res = [('glo_bal', u'Global configuration'), ('testtype', u'Test type')]
         elif PLONE_VERSION == '5.2':
