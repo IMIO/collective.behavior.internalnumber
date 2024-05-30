@@ -188,9 +188,6 @@ class DxPortalTypesVocabulary(object):
         portal = api.portal.get()
         for fti in ftis:
             terms.append(
-                SimpleTerm(
-                    fti.id,
-                    fti.id,
-                    translate(fti.Title(), context=portal.REQUEST)))
+                SimpleTerm(fti.id, fti.id, translate(fti.Title(), context=portal.REQUEST)))
         terms = sorted(terms, key=attrgetter('title'))
         return SimpleVocabulary(terms)
