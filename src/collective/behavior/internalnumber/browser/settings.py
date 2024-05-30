@@ -5,6 +5,7 @@ from collective.behavior.internalnumber import TYPE_CONFIG
 from collective.behavior.talcondition.utils import _evaluateExpression
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.registry import DictRow
+from operator import attrgetter
 from plone import api
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
@@ -15,8 +16,7 @@ from Products.CMFPlone.utils import base_hasattr
 from z3c.form import form
 from zope import schema
 from zope.component import getAllUtilitiesRegisteredFor
-from zope.component import getUtility
-from zope.i18n.interfaces import ITranslationDomain
+from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.schema.interfaces import IVocabularyFactory
@@ -187,7 +187,10 @@ class DxPortalTypesVocabulary(object):
         ftis = getAllUtilitiesRegisteredFor(IDexterityFTI)
         portal = api.portal.get()
         for fti in ftis:
-            translation_domain = getUtility(ITranslationDomain, fti.i18n_domain)
-            terms.append(SimpleTerm(fti.id, fti.id, translation_domain.translate(
-                fti.title, context=portal.REQUEST)))
+            terms.append(
+                SimpleTerm(
+                    fti.id,
+                    fti.id,
+                    translate(fti.Title(), context=portal.REQUEST)))
+        terms = sorted(terms, key=attrgetter('title'))
         return SimpleVocabulary(terms)

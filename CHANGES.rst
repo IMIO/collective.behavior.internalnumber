@@ -5,8 +5,9 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Use `fti.Title()` that is a i18n `Message` instance to manage settings
+  `portal_types` vocabulary.  Also sort vocabulary by term title.
+  [gbastien]
 
 0.3 (2023-11-27)
 ----------------
