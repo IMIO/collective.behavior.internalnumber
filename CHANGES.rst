@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.4 (unreleased)
+0.4 (2024-06-07)
 ----------------
 
 - Use `fti.Title()` that is a i18n `Message` instance to manage settings
