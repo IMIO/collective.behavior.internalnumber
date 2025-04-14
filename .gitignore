@@ -12,6 +12,7 @@
 # dirs
 bin/
 buildout-cache/
+CACHEDIR.TAG
 checkversion*.html
 develop-eggs/
 eggs/
