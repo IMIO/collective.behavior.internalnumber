@@ -5,7 +5,8 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added Plone 6.1 version in buildout.
+  [chris-adam]
 
 
 0.4 (2024-06-07)
