@@ -1,0 +1,37 @@
+name: Package Test Workflow
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+    tests-plone4:
+        uses: IMIO/gha-workflows/.github/workflows/package-test-legacy.yml@DEVOPS-239
+        with:
+            buildout_config_file: test-4.3.cfg
+            requirements_file: requirements-4.3.txt
+            runner_label: gha-runners
+    tests-current:
+        uses: IMIO/gha-workflows/.github/workflows/package-test-uv.yml@main
+        strategy:
+            matrix:
+                include:
+                    - python_version: '3.7'
+                      plone_version: '5.2'
+                    - python_version: '3.10'
+                      plone_version: '6.0'
+                    - python_version: '3.13'
+                      plone_version: '6.1'
+        with:
+            buildout_config_file: test-${{ matrix.plone_version }}.cfg
+            python_version: ${{ matrix.python_version }}
+            requirements_file: requirements-${{ matrix.plone_version }}.txt
+            runner_label: gha-runners-smartweb
+    coverage:
+        uses: IMIO/gha-workflows/.github/workflows/package-test-coverage.yml@DEVOPS-239
+        with:
+            buildout_config_file: test-6.1.cfg
+            python_version: 3.13
+            requirements_file: requirements-6.1.txt
+            runner_label: gha-runners-smartweb
+            test_command: 'uvx coverage run bin/test -t !robot >> $GITHUB_STEP_SUMMARY'
