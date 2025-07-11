@@ -12,12 +12,13 @@ jobs:
             requirements_file: requirements-4.3.txt
             runner_label: gha-runners-delib-py2
     tests-current:
-        uses: IMIO/gha-workflows/.github/workflows/package-test-uv.yml@main
+        uses: IMIO/gha-workflows/.github/workflows/package-test-uv.yml@DEVOPS-239
         strategy:
             matrix:
                 include:
-                    - python_version: '3.8'
+                    - python_version: '3.7'
                       plone_version: '5.2'
+                      uv_version: '0.6.17'
                     - python_version: '3.10'
                       plone_version: '6.0'
                     - python_version: '3.13'
@@ -27,6 +28,7 @@ jobs:
             python_version: ${{ matrix.python_version }}
             requirements_file: requirements-${{ matrix.plone_version }}.txt
             runner_label: gha-runners-smartweb
+            uv_version: ${{ matrix.uv_version || '0.7.20'}}
     coverage:
         uses: IMIO/gha-workflows/.github/workflows/package-test-coverage.yml@DEVOPS-239
         with:
