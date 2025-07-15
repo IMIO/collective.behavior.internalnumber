@@ -1,6 +1,8 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <object name="portal_catalog">
-    <index name="internal_number" meta_type="FieldIndex">
-        <indexed_attr value="internal_number_index"/>
-    </index>
+  <index meta_type="FieldIndex"
+         name="internal_number"
+  >
+    <indexed_attr value="internal_number_index" />
+  </index>
 </object>

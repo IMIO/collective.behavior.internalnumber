@@ -4,15 +4,22 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="collective.behavior.internalnumber">
+    i18n_domain="collective.behavior.internalnumber"
+    >
 
   <i18n:registerTranslations directory="locales" />
 
   <include package="collective.behavior.talcondition" />
-  <include package="collective.dexteritytextindexer" zcml:condition="not-have plone-60" />
+  <include
+      package="collective.dexteritytextindexer"
+      zcml:condition="not-have plone-60"
+      />
   <include package="collective.z3cform.datagridfield" />
 
-  <include package="plone.behavior" file="meta.zcml" />
+  <include
+      package="plone.behavior"
+      file="meta.zcml"
+      />
 
   <include package=".browser" />
 
@@ -22,8 +29,14 @@
       provides=".behavior.IInternalNumberBehavior"
       />
 
-  <adapter name="internal_number_index" factory=".adapters.internal_number_index" />
-  <adapter name="IInternalNumberBehavior" factory=".adapters.InternalNumberSearchableExtender" />
+  <adapter
+      factory=".adapters.internal_number_index"
+      name="internal_number_index"
+      />
+  <adapter
+      factory=".adapters.InternalNumberSearchableExtender"
+      name="IInternalNumberBehavior"
+      />
 
   <subscriber
       for=".behavior.IInternalNumberBehavior
@@ -34,32 +47,33 @@
   <genericsetup:registerProfile
       name="default"
       title="collective.behavior.internalnumber"
-      directory="profiles/default"
       description="Installs the collective.behavior.internalnumber add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
       post_handler=".setuphandlers.post_install"
       />
 
   <genericsetup:registerProfile
       name="uninstall"
       title="collective.behavior.internalnumber (uninstall)"
-      directory="profiles/uninstall"
       description="Uninstalls the collective.behavior.internalnumber add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
       post_handler=".setuphandlers.uninstall"
       />
 
   <genericsetup:upgradeStep
       title="Upgrade to 1001"
       description="Remove internal_number catalog metadata"
+      profile="collective.behavior.internalnumber:default"
       source="1000"
       destination="1001"
       handler="collective.behavior.internalnumber.upgrades.upgrade_to_1001"
-      profile="collective.behavior.internalnumber:default"
       />
 
   <utility
       factory=".setuphandlers.HiddenProfiles"
-      name="collective.behavior.internalnumber-hiddenprofiles" />
+      name="collective.behavior.internalnumber-hiddenprofiles"
+      />
 
 </configure>

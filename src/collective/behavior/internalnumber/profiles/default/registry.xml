@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <registry>
 
-    <records interface="collective.behavior.internalnumber.browser.settings.IInternalNumberConfig" />
+  <records interface="collective.behavior.internalnumber.browser.settings.IInternalNumberConfig" />
 
 </registry>

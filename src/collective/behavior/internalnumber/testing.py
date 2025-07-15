@@ -21,13 +21,14 @@ class CollectiveBehaviorInternalnumberLayer(PloneSandboxLayer):
         # Load any other ZCML that is required for your tests.
         # The z3c.autoinclude feature is disabled in the Plone fixture base
         # layer.
-        self.loadZCML(package=collective.behavior.internalnumber, name='testing.zcml')
+        self.loadZCML(package=collective.behavior.internalnumber, name="testing.zcml")
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'collective.behavior.internalnumber:testing')
-        setRoles(portal, TEST_USER_ID, ['Manager'])
-        content = api.content.create(container=portal, id='tt1', type='testtype', title='My content',
-                                     internal_number='AA123')
+        applyProfile(portal, "collective.behavior.internalnumber:testing")
+        setRoles(portal, TEST_USER_ID, ["Manager"])
+        content = api.content.create(
+            container=portal, id="tt1", type="testtype", title="My content", internal_number="AA123"
+        )
         content.reindexObject()
 
 
@@ -35,22 +36,16 @@ COLLECTIVE_BEHAVIOR_INTERNALNUMBER_FIXTURE = CollectiveBehaviorInternalnumberLay
 
 
 COLLECTIVE_BEHAVIOR_INTERNALNUMBER_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(COLLECTIVE_BEHAVIOR_INTERNALNUMBER_FIXTURE,),
-    name='CollectiveBehaviorInternalnumberLayer:IntegrationTesting'
+    bases=(COLLECTIVE_BEHAVIOR_INTERNALNUMBER_FIXTURE,), name="CollectiveBehaviorInternalnumberLayer:IntegrationTesting"
 )
 
 
 COLLECTIVE_BEHAVIOR_INTERNALNUMBER_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(COLLECTIVE_BEHAVIOR_INTERNALNUMBER_FIXTURE,),
-    name='CollectiveBehaviorInternalnumberLayer:FunctionalTesting'
+    bases=(COLLECTIVE_BEHAVIOR_INTERNALNUMBER_FIXTURE,), name="CollectiveBehaviorInternalnumberLayer:FunctionalTesting"
 )
 
 
 COLLECTIVE_BEHAVIOR_INTERNALNUMBER_ACCEPTANCE_TESTING = FunctionalTesting(
-    bases=(
-        COLLECTIVE_BEHAVIOR_INTERNALNUMBER_FIXTURE,
-        REMOTE_LIBRARY_BUNDLE_FIXTURE,
-        z2.ZSERVER_FIXTURE
-    ),
-    name='CollectiveBehaviorInternalnumberLayer:AcceptanceTesting'
+    bases=(COLLECTIVE_BEHAVIOR_INTERNALNUMBER_FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, z2.ZSERVER_FIXTURE),
+    name="CollectiveBehaviorInternalnumberLayer:AcceptanceTesting",
 )

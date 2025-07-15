@@ -15,7 +15,7 @@ try:
 except ImportError:
     from Products.PluginIndexes.unindex import _marker as common_marker  # noqa
 
-if PLONE_VERSION < '6.0':
+if PLONE_VERSION < "6.0":
     from collective.dexteritytextindexer.interfaces import IDynamicTextIndexExtender
 else:
     from plone.app.dexterity.textindexer.interfaces import IDynamicTextIndexExtender
@@ -23,8 +23,8 @@ else:
 
 @indexer(IContentish)
 def internal_number_index(obj):
-    """ Index method escaping acquisition and ready for ZCatalog 3 """
-    if base_hasattr(obj, 'internal_number') and obj.internal_number:
+    """Index method escaping acquisition and ready for ZCatalog 3"""
+    if base_hasattr(obj, "internal_number") and obj.internal_number:
         return obj.internal_number
     return common_marker
 
@@ -32,8 +32,9 @@ def internal_number_index(obj):
 @implementer(IDynamicTextIndexExtender)
 class InternalNumberSearchableExtender(object):
     """
-        Extends SearchableText of IInternalNumberBehavior objects.
+    Extends SearchableText of IInternalNumberBehavior objects.
     """
+
     adapts(IInternalNumberBehavior)
 
     def __init__(self, context):

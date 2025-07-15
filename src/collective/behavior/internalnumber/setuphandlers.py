@@ -11,11 +11,10 @@ from zope.interface import implementer
 
 @implementer(INonInstallable)
 class HiddenProfiles(object):
-
     def getNonInstallableProfiles(self):
         """Hide uninstall profile from site-creation and quickinstaller"""
         return [
-            'collective.behavior.internalnumber:uninstall',
+            "collective.behavior.internalnumber:uninstall",
         ]
 
 
@@ -28,7 +27,7 @@ def post_install(context):
         try:
             registry[TYPE_CONFIG] = []
         except ConnectionStateError:
-            logger.warn('!!!Failed to set registry config to []!!!')
+            logger.warn("!!!Failed to set registry config to []!!!")
             registry.records[TYPE_CONFIG].field.value_type = None
 
 
