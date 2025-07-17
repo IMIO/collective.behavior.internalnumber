@@ -6,13 +6,13 @@ on:
 
 jobs:
     tests-plone4:
-        uses: IMIO/gha-workflows/.github/workflows/package-test-legacy.yml@DEVOPS-239
+        uses: IMIO/gha-workflows/.github/workflows/package-test-legacy.yml@v1
         with:
             buildout_config_file: test-4.3.cfg
             requirements_file: requirements-4.3.txt
-            runner_label: gha-runners-delib-py2
+            runner_label: gha-runners-docs-py2
     tests-current:
-        uses: IMIO/gha-workflows/.github/workflows/package-test-uv.yml@DEVOPS-239
+        uses: IMIO/gha-workflows/.github/workflows/package-test-uv.yml@v1
         strategy:
             matrix:
                 include:
@@ -32,10 +32,10 @@ jobs:
             system_dependencies: ${{ matrix.system_dependencies || '' }}
             uv_version: ${{ matrix.uv_version || '0.7.20'}}
     coverage:
-        uses: IMIO/gha-workflows/.github/workflows/package-test-coverage.yml@DEVOPS-239
+        uses: IMIO/gha-workflows/.github/workflows/package-test-coverage.yml@v1
         with:
             buildout_config_file: test-6.1.cfg
             python_version: 3.13
             requirements_file: requirements-6.1.txt
-            runner_label: gha-runners-smartweb
+            runner_label: gha-runners-docs
             test_command: 'uvx coverage run bin/test -t !robot >> $GITHUB_STEP_SUMMARY'
