@@ -1,4 +1,5 @@
--c https://dist.plone.org/release/5.2-latest/requirements.txt
+# -c https://dist.plone.org/release/5.2-latest/requirements.txt
 setuptools
 zc.buildout==3.4
-wheel
+wheel==0.37.1; python_version < '3.0'
+wheel==0.38.4; python_version >= '3.0'wheel
