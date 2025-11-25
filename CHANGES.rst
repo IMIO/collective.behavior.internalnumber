@@ -9,6 +9,8 @@ Changelog
   [chris-adam]
 - Added controlpanel icon
   [sgeulette]
+- Upgraded zc.buildout
+  [sgeulette]
 
 0.4 (2024-06-07)
 ----------------
